@@ -75,8 +75,8 @@ public:
       }
 
       diff = targetTheta - currentTheta;
-      Serial.println(targetTheta);
-      Serial.println(String(radianToDegree(targetTheta)) +"Add = "+ String(add));
+      // Serial.println(targetTheta);
+      // Serial.println(String(radianToDegree(targetTheta)) +"Add = "+ String(add));
       // targetTheta = degreeToRadian(targetTheta);
       directionOut->fx = mag * cos(diff);
       directionOut->fy = mag * sin(diff);

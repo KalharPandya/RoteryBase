@@ -19,7 +19,7 @@ class feedbackHandler{
         directions -> fx = encX->getReadings();
         directions -> fy = encY->getReadings();
         directions -> fr = mpu.getReadings();
-        Serial.println("X:"+String(directions -> fx)+"\tY:"+String(directions -> fy )+"\tR:"+String(directions -> fr));
+        // Serial.println("X:"+String(directions -> fx)+"\tY:"+String(directions -> fy )+"\tR:"+String(directions -> fr));
     }
     
 }feedback;

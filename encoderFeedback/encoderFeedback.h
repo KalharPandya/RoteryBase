@@ -1,7 +1,8 @@
 class encoderFeedback{
     public:
     int CPR = 720;
-    int interval = 10;
+    double linearOffset = 0.05;
+    int interval = 5;
     double wheelDiametre = 58;
     long prevReadings = 0;
     bool keepHistory = true;
@@ -18,7 +19,7 @@ class encoderFeedback{
     long getReadings(){
         readings = enc->getReadings();
         // Serial.println(String(readings)+"read");
-        rpm = (((double)(readings - prevReadings)/CPR)/((double)interval)) * (1000*60);
+        rpm = (((double)(readings - prevReadings) / CPR) * ((double)1000 * 60 / interval) * 0.58 * linearOffset);
         if(!keepHistory){
             prevReadings = readings;
         }
