@@ -1,11 +1,11 @@
 class encoderFeedback{
     public:
     int CPR = 720;
-    double linearOffset = 0.05;
+    double linearOffset = 0.02;
     int interval = 5;
     double wheelDiametre = 58;
     long prevReadings = 0;
-    bool keepHistory = true;
+    bool keepHistory =false;
     long readings = 0;
     long double rpm = 0;
     UniversalEncoder *enc = new UniversalEncoder();

@@ -17,7 +17,6 @@ class RoteryBase{
     Direction *UserInput = new Direction();
     Direction *translated = new Direction();
     Direction *feedbackDirections = feedback.directions;
-    
     Direction *PID_Output = new Direction();
     MotorSpeeds *FinalSpeeds = new MotorSpeeds();
     RoteryBase(){}
