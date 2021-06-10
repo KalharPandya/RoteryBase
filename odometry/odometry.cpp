@@ -1,43 +1,25 @@
 class odometry
 {
 public:
-    double m1_x = 0.7071;
-    double m1_y = 0.7071;
-    double m1_r = -0.2;
+    double m1_x = 1;
+    double m1_y = 1;
+    double m1_r = -1;
     Direction *directions = new Direction();
     MotorSpeeds *ms = new MotorSpeeds();
-    double m2_x = 0.7071;
-    double m2_y = -0.7071;
-    double m2_r = -0.2;
+    double m2_x = 1;
+    double m2_y = -1;
+    double m2_r = -1;
 
-    double m3_x = -0.7071;
-    double m3_y = -0.7071;
-    double m3_r = -0.2;
+    double m3_x = -1;
+    double m3_y = -1;
+    double m3_r = -1;
 
-    double m4_x = -0.7071;
-    double m4_y = 0.7071;
-    double m4_r = -0.2;
-    double max_coef;
+    double m4_x = -1;
+    double m4_y = 1;
+    double m4_r = -1;
+    double max = 0;
 
-    odometry()
-    {
-        max_coef = abs(m1_x) + abs(m1_y) + abs(m1_r);
-        m1_x = m1_x / max_coef;
-        m2_x = m2_x / max_coef;
-        m3_x = m3_x / max_coef;
-        m4_x = m4_x / max_coef;
-
-        m1_y = m1_y / max_coef;
-        m2_y = m2_y / max_coef;
-        m3_y = m3_y / max_coef;
-        m4_y = m4_y / max_coef;
-
-        m1_r = m1_r / max_coef;
-        m2_r = m2_r / max_coef;
-        m3_r = m3_r / max_coef;
-        m4_r = m4_r / max_coef;
-    }
-
+    
     void setDirections(Direction *d)
     {
         this->directions = d;
@@ -46,11 +28,34 @@ public:
     void setMotors(MotorSpeeds *m){
         this->ms = m;
     }
+    void manageMax(int num){
+        if(abs(num) > abs(max))
+            max = abs(num);
+    }
+    int mapFun(int m){
+        return map(m,-max,max,-255,255);
+    }
+    void mapAll(){
+        ms->m1=mapFun(ms->m1);
+        ms->m2=mapFun(ms->m2);
+        ms->m3=mapFun(ms->m3);
+        ms->m4=mapFun(ms->m4);
+    }
     void compute()
     {
+        // directions->display();
         ms->m1 = (m1_x * directions->fx + m1_y * directions->fy + m1_r * directions->fr);
+        max = abs(ms->m1);
         ms->m2 = (m2_x * directions->fx + m2_y * directions->fy + m2_r * directions->fr);
+        manageMax(ms->m2);
         ms->m3 = (m3_x * directions->fx + m3_y * directions->fy + m3_r * directions->fr);
+        manageMax(ms->m3);
         ms->m4 = (m4_x * directions->fx + m4_y * directions->fy + m4_r * directions->fr);
+        manageMax(ms->m4);
+        // Serial.println("max: "+String(max));
+        if(max>255){
+            mapAll();
+        }
+        // ms->display();
     }
 } OdometryHelper;
