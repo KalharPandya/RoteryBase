@@ -7,12 +7,21 @@ void setMpu6050()
 class mpu
 {
 public:
-    double currAngle = 0;
+    double currAngle = 0, readings;
+
+    double rpm;
     bool autoCalibrate = true;
     int directionalOffset = 1;
-    void setup(){
+    long prevReadings, prevTime;
+    double rotationalOffset = 8;
+    int interval = 10;
+    bool keepHistory;
+    void setup(bool history = true)
+    {
+        keepHistory = history;
         setMpu6050();
-        if(autoCalibrate){
+        if (autoCalibrate)
+        {
             calibrate();
         }
     }
@@ -23,14 +32,10 @@ public:
     double getReadings()
     {
         mpu6050.update();
-        currAngle = mpu6050.getAngleZ() * directionalOffset;
+        currAngle = mpu6050.getAngleZ() * directionalOffset * rotationalOffset;
         return currAngle;
     }
-    double getAngle(){
-        mpu6050.update();
-        currAngle = mpu6050.getAngleZ() * directionalOffset;
-        return currAngle;
-    }
+    
     void calibrate()
     {
         mpu6050.calcGyroOffsets(true);
