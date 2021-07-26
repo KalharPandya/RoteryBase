@@ -1,32 +1,46 @@
+void noneFunction(){
+
+}
 class PIDDirections
 {
 public:
     Direction *target = new Direction();
     Direction *_feedback = new Direction();
     Direction *output = new Direction();
+    Direction *UserIn = new Direction();
     long interval = 10000;
     long prevtime = 0;
-    double xKp = 0.08, xKi = 0, xKd = 0;
-
-o
-    double yKp = 0.08, yKi = 0, yKd = 0;
-    double rKp = 0.6, rKi = 0, rKd = 0;
+    double xKp = 0.1, xKi = 0, xKd = 0;
+    double yKp = 0.1, yKi = 0, yKd = 0;
+    double rKp = 0.9, rKi = 0, rKd = 0;
     PID *fxPID, *fyPID, *frPID;
     bool keepHistory = true;
     bool continueRotation = false;
     long prevX = 0, prevY = 0, prevR = 0;
     double rotationPerCount = 0;
+    double X_offset=0.5;
+    double y_offset=0.5;
+    double r_offset=0.2;
+    void (*updateInput)() = noneFunction;
     PIDDirections() {}
     PIDDirections(Direction *in, Direction *out, Direction *setp)
     {
         set(in, out, setp);
     }
+    void attachInputUpdate(void (*_updateInput)()){
+        updateInput = _updateInput;
+    } 
     void set(Direction *in, Direction *out, Direction *setp)
     {
-        target = setp;
+        UserIn = setp;
         _feedback = in;
         output = out;
        
+    }
+    void modifyInput(){
+        target->fx = UserIn->fx * X_offset;
+        target->fy = UserIn->fy * y_offset;
+        target->fr = UserIn->fr * r_offset;
     }
     void setup()
     {    
@@ -50,32 +64,35 @@ o
     {
         if (micros() - prevtime > interval)
         {
+            updateInput();
+            // UserIn->display();
+            modifyInput();
             prevtime = micros();
             feedback.compute();
             
-            Serial.print("Feed Back From Sensor : ");
-            _feedback->display();
-            Serial.println();
+            // Serial.print("Feed Back From Sensor : ");
+            // _feedback->display();
+            // Serial.println();
 
             _feedback->fx -= prevX;
             _feedback->fy -= prevY;
             _feedback->fr -= prevR;
 
-            Serial.print("Prev Reading");
-            Serial.println("X : " + String(prevX)+"  Y : " + String(prevY)+ "  R : " + String(prevR));
+            // Serial.print("Prev Reading");
+            // Serial.println("X : " + String(prevX)+"  Y : " + String(prevY)+ "  R : " + String(prevR));
 
-            Serial.print("Feed After Subtracting Prev : ");
-            _feedback->display();
-            Serial.print("Target  ");
-            target->display();
-            Serial.println();
+            // Serial.print("Feed After Subtracting Prev : ");
+            // _feedback->display();
+            // Serial.print("Target  ");
+            // target->display();
+            // Serial.println();
             fxPID->Compute();
             fyPID->Compute();
             frPID->Compute();
             
-            Serial.print("output  ");
-            output->display();
-            if (keepHistory)
+            // Serial.print("output  ");
+            // output->display();
+            if (keepHistory )
             {
                 prevX += target->fx;
                 prevY += target->fy;

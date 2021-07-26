@@ -24,7 +24,39 @@ class Direction{
     void display(){
         Serial.println("fx: "+String(fx)+"\tfy: "+String(fy)+"\tfr: "+String(fr));
     }
+    double max(){
+        if(fx>fy){
+            if(fx > fr)
+                return fx;
+            else
+                return fr;
+        }
+        else{
+            if(fy>fr)
+                return fy;
+            else
+                return fr;
+        }
 
+    }
+
+    double absMax()
+    {
+        if (abs(fx) > abs(fy))
+        {
+            if (abs(fx) > abs(fr))
+                return abs(fx);
+            else
+                return abs(fr);
+        }
+        else
+        {
+            if (abs(fy) > abs(fr))
+                return abs(fy);
+            else
+                return abs(fr);
+        }
+    }
     void input(){
         a=Serial.readStringUntil(',');
         fx=a.toDouble();

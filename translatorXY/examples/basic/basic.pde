@@ -24,8 +24,8 @@ void loop() {
     t.compute();
     //    Serial.print("OX: "+String(x));
     //    Serial.println("Oy: "+String(y));
-    Serial.print("OX: " + String(t.getX()));
-    Serial.println("  OY: " + String(t.getY()));
+    //Serial.print("OX: " + String(t.getX()));
+    //Serial.println("  OY: " + String(t.getY()));
 
   }
 }
