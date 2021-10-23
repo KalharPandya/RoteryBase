@@ -3,6 +3,8 @@
 #include <Motor.h>
 #include <MPU6050_tockn.h>
 #include "States/States.cpp"
+#include "optimizer/optimizer.cpp"
+#include "virtualBase/virtualBase.cpp"
 // #include "translatorXY/translator.h"
 #include "./Commander/Commander.cpp"
 #include "odometry/odometry.cpp"
@@ -12,6 +14,7 @@
 #include "MotorHandler/MotorHandler.cpp"
 #include "feedbackHandler/feedbackHandler.cpp"
 #include "PIDDirections/PIDDirections.cpp"
+#include "PIDRatio/PIDRatio.cpp"
 
 // translateXY *translate;
 class RoteryBase{
