@@ -20,9 +20,15 @@ class MotorSpeeds{
 class Direction{
     public:
     String a;
+    double rfx, rfy, rfr, magnitude;
     double fx = 0, fy = 0, fr = 0;
+    bool isZero = false;
+
     void display(){
         Serial.println("fx: "+String(fx)+"\tfy: "+String(fy)+"\tfr: "+String(fr));
+    }
+    void displayRatio(){
+        Serial.printf("rfx: %lf, rfy: %lf, rfr: %lf, magnitude: %lf\n",rfx,rfy,rfr,magnitude);
     }
     double max(){
         if(fx>fy){
@@ -65,5 +71,100 @@ class Direction{
         a=Serial.readStringUntil(',');
         fr=a.toDouble();
     }
-    
+    void process(){
+        magnitude = abs(fx) + abs(fy) + abs(fr);
+        // magnitude = magnitude == 0 ? 1 : magnitude;
+        if(magnitude == 0)
+        {
+            magnitude = 1;
+            isZero = true;
+        }
+        else{
+            isZero = false;
+        }
+        rfx = fx/magnitude;
+        rfy = fy/magnitude;
+        rfr = fr/magnitude;
+    }
+    void invertProcess(){
+        fx = rfx * magnitude;
+        fy = rfy * magnitude;
+        fr = rfr * magnitude;
+    }
+
+    void displayGraph(){
+        Serial.printf("%lf,%lf,%lf\n",fx,fy,fr);
+    }
+    void displayRatioGraph(){
+        Serial.printf("%lf,%lf,%lf\n",rfx,rfy,rfr);
+    }
+    Direction operator +(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx+a.fx;
+        temp.fy=fy+a.fy;
+        temp.fr=fr+a.fr;
+        
+        return temp;
+    }
+     Direction operator -(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx-a.fx;
+        temp.fy=fy-a.fy;
+        temp.fr=fr-a.fr;
+        return temp;
+    }
+     Direction operator *(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx*a.fx;
+        temp.fy=fy*a.fy;
+        temp.fr=fr*a.fr;
+        return temp;
+    }
+     Direction operator /(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx/a.fx;
+        temp.fy=fy/a.fy;
+        temp.fr=fr/a.fr;
+        return temp;
+    }
+
+    Direction operator +(double a)
+    {
+        Direction temp;
+        temp.fx=fx+a;
+        temp.fy=fy+a;
+        temp.fr=fr+a;
+        return temp;
+    }
+    Direction operator -(double a)
+    {
+        Direction temp;
+        temp.fx=fx-a;
+        temp.fy=fy-a;
+        temp.fr=fr-a;
+        return temp;
+    }
+    Direction operator *(double a)
+    {
+        Direction temp;
+        temp.fx=fx*a;
+        temp.fy=fy*a;
+        temp.fr=fr*a;
+        return temp;
+    }
+    Direction operator /(double a)
+    {
+        Direction temp; 
+        temp.fx=fx/a;
+        temp.fy=fy/a;
+        temp.fr=fr/a;
+        return temp;
+    }
+    operator String(){
+        return "fx="+String(fx)+" fy="+String(fy)+" fr="+String(fr);
+    }
 };
