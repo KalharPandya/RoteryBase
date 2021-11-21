@@ -3,20 +3,20 @@ class odometry
 public:
     double m1_x = 1;
     double m1_y = 1;
-    double m1_r = -1;
+    double m1_r = 1;
     Direction *directions = new Direction();
     MotorSpeeds *ms = new MotorSpeeds();
     double m2_x = 1;
     double m2_y = -1;
-    double m2_r = -1;
+    double m2_r = 1;
 
     double m3_x = -1;
     double m3_y = -1;
-    double m3_r = -1;
+    double m3_r = 1;
 
     double m4_x = -1;
     double m4_y = 1;
-    double m4_r = -1;
+    double m4_r = 1;
     double max = 0;
 
     

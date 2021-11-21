@@ -98,4 +98,73 @@ class Direction{
     void displayRatioGraph(){
         Serial.printf("%lf,%lf,%lf\n",rfx,rfy,rfr);
     }
+    Direction operator +(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx+a.fx;
+        temp.fy=fy+a.fy;
+        temp.fr=fr+a.fr;
+        
+        return temp;
+    }
+     Direction operator -(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx-a.fx;
+        temp.fy=fy-a.fy;
+        temp.fr=fr-a.fr;
+        return temp;
+    }
+     Direction operator *(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx*a.fx;
+        temp.fy=fy*a.fy;
+        temp.fr=fr*a.fr;
+        return temp;
+    }
+     Direction operator /(Direction a)
+    {
+        Direction temp;
+        temp.fx=fx/a.fx;
+        temp.fy=fy/a.fy;
+        temp.fr=fr/a.fr;
+        return temp;
+    }
+
+    Direction operator +(double a)
+    {
+        Direction temp;
+        temp.fx=fx+a;
+        temp.fy=fy+a;
+        temp.fr=fr+a;
+        return temp;
+    }
+    Direction operator -(double a)
+    {
+        Direction temp;
+        temp.fx=fx-a;
+        temp.fy=fy-a;
+        temp.fr=fr-a;
+        return temp;
+    }
+    Direction operator *(double a)
+    {
+        Direction temp;
+        temp.fx=fx*a;
+        temp.fy=fy*a;
+        temp.fr=fr*a;
+        return temp;
+    }
+    Direction operator /(double a)
+    {
+        Direction temp; 
+        temp.fx=fx/a;
+        temp.fy=fy/a;
+        temp.fr=fr/a;
+        return temp;
+    }
+    operator String(){
+        return "fx="+String(fx)+" fy="+String(fy)+" fr="+String(fr);
+    }
 };
