@@ -1,14 +1,14 @@
 #include <Wire.h>
 #include <PID_v1.h>
 #include <Motor.h>
-// #include <MPU6050_tockn.h>
+#include <MPU6050_tockn.h>
 #include "States/States.cpp"
 #include "optimizer/optimizer.cpp"
 #include "virtualBase/virtualBase.cpp"
 #include "./Commander/Commander.cpp"
 #include "odometry/odometry.cpp"
 #include "encoderFeedback/encoderFeedback.h"
-// #include "mpu/mpu.cpp"
+#include "mpu/mpu.cpp"
 #include "MotorHandler/MotorHandler.cpp"
 #include "feedbackHandler/feedbackHandler.cpp"
 #include "PIDDirections/PIDDirections.cpp"
@@ -34,6 +34,8 @@ public:
     {
         if (!virtualMode)
         {
+            feedback.setup();
+            mpu.setOffset(-1);
             feedback.setDirections(real);
             PID_ratio.set(real, PID_out, UserIn);
             PID_ratio.setup();
@@ -43,6 +45,7 @@ public:
         }
         else
         {
+            
             vbase.set(PID_out, real);
             PID_ratio.set(real, PID_out, UserIn);
             PID_ratio.setup();

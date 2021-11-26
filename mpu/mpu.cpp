@@ -22,6 +22,7 @@ public:
         setMpu6050();
         if (autoCalibrate)
         {
+            Serial.println("calibrating");
             calibrate();
         }
     }

@@ -10,7 +10,7 @@ class feedbackHandler{
         this->directions = d;
     }
     void setup(){
-        // mpu.setup();
+         mpu.setup();
     }
     void setEncoderXYR(encoderFeedback *x,encoderFeedback *y,encoderFeedback *r){
         encX = x;
@@ -20,7 +20,8 @@ class feedbackHandler{
     void compute(){
         directions -> fx = encX->getReadings();
         directions -> fy = encY->getReadings();
-        directions -> fr = 1*(encR->getReadings() - encX->getReadings());
+        // directions -> fr = 1*(encR->getReadings() - encX->getReadings());
+        directions->fr=mpu.getReadings();
         // Serial.println("X:"+String(directions -> fx)+"\tY:"+String(directions -> fy )+"\tR:"+String(directions -> fr));
     }
     operator String(){
