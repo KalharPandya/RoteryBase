@@ -39,7 +39,7 @@ public:
       {
          if (directionIn->fy < 0)
          {
-            add = 270;
+            add = 360;
          }
          else if (directionIn->fy >= 0)
          {
@@ -54,7 +54,7 @@ public:
          }
          else if (directionIn->fy >= 0)
          {
-            add = 90;
+            add = 180;
          }
       }
       if (directionIn->fx == 0)
@@ -71,7 +71,7 @@ public:
       else
       {
 
-         targetTheta = abs(atan(directionIn->fy / directionIn->fx)) + degreeToRadian(add);
+         targetTheta = atan(directionIn->fy / directionIn->fx) + degreeToRadian(add);
       }
 
       diff = targetTheta - currentTheta;
