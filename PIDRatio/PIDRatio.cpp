@@ -8,6 +8,7 @@ public:
     Direction *currentFeedback = new Direction();
     Direction *speedReferenceFeedback = new Direction();
     Direction *_feedback = new Direction();
+    Direction *t_feedback = new Direction();
     Direction *traveled = new Direction();
     Direction *output = new Direction();
     Direction *UserIn = new Direction();
@@ -16,8 +17,8 @@ public:
     bool braking = false;
     double xKp = 1, xKi = 0, xKd = 0;
     double yKp = 1, yKi = 0, yKd = 0;
-    double rKp = 1, rKi = 0, rKd = 0;
-    double brakeKp = 10, brakeKi = 0.1, brakeKd = 0;
+    double rKp = 1.5, rKi = 0, rKd = 0;
+    double brakeKp = 5, brakeKi = 0.1, brakeKd = 0;
     PID *fxPID, *fyPID, *frPID, *brake;
 
     PIDRatio() {}
@@ -72,8 +73,8 @@ public:
                 braking = false;
             }
             *prevUserIn = *currUserIn;
-            *_feedback = *_feedback / 15;
-            *currentFeedback = *_feedback - *prevFeedback;
+            *t_feedback = *_feedback / 8;
+            *currentFeedback = *t_feedback - *prevFeedback;
             *speedReferenceFeedback = *currentFeedback;
             currUserIn->process();
             if (!currUserIn->isZero)
@@ -86,7 +87,7 @@ public:
             dist = pow(pow((speedReferenceFeedback->fx - currentFeedback->fx), 2) +
                  pow((speedReferenceFeedback->fy - currentFeedback->fy), 2) +
                  pow((speedReferenceFeedback->fr - currentFeedback->fr), 2), 0.5) * 10;
-            *prevFeedback=*_feedback - *currentFeedback;
+            *prevFeedback=*t_feedback - *currentFeedback;
             if(braking){
                 brake->Compute();
                 traveled->magnitude = brakeOut;
